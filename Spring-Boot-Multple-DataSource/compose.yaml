@@ -1,0 +1,59 @@
+services:
+  # MySql Database
+  dbdata:
+    container_name: MySQL-Data
+    image: mysql:latest
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: db_data
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: password
+    volumes:
+      - dbdata:/var/lib/mysql
+    networks:
+      - database
+
+  # MySql Database
+  dbsecurity:
+    container_name: MySQL-Security
+    image: mysql:latest
+    restart: unless-stopped
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_DATABASE: db_security
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: password
+    volumes:
+      - dbsecurity:/var/lib/mysql
+    networks:
+      - database
+
+  # PHP MyAdmin
+  phpmyadmin:
+    container_name: PhpMyAdmin-Security
+    depends_on:
+      - dbdata
+      - dbsecurity
+    image: phpmyadmin/phpmyadmin:latest
+    restart: unless-stopped
+    ports:
+      - "8091:80"
+    environment:
+      PMA_HOSTS: dbdata, dbsecurity
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+      MYSQL_ROOT_PASSWORD: password
+    networks:
+      - database
+
+volumes:
+  dbdata:
+  dbsecurity:	
+
+networks:
+  database:
