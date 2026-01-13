@@ -29,36 +29,12 @@ public class SpringBootMultpleDataSourceApplication {
 			JdbcTemplate dataJdbcTemplate) {
 		return args -> {
 			System.out.print("INIT DATABASE! ");
-			securityJdbcTemplate.execute("DROP table if exists authorities;");
-			securityJdbcTemplate.execute("DROP table if exists users;");
-			securityJdbcTemplate.execute("create table users(username varchar(50) not null primary key,\n"
-					+ "				    password varchar(500) not null,\n"
-					+ "				    enabled boolean not null);");
-			securityJdbcTemplate.execute("create table authorities (\n"
-					+ "    username varchar(50) not null,\n"
-					+ "    authority varchar(50) not null,\n"
-					+ "    CONSTRAINT fk_authorities_users FOREIGN KEY (username) REFERENCES users (username));");
-			securityJdbcTemplate.execute("create unique index ix_auth_username on authorities (username,authority);");
 			
-			securityJdbcTemplate.execute("INSERT IGNORE INTO users (username, password, enabled) VALUES\n"
-					+ "		    ('user', '{bcrypt}$2a$10$GRLdNijSQMUvl/au9ofL.eDwmoohzzS7.rmNSJZ.0FxO/BTk76klW', '1'),\n"
-					+ "		    ('admin', '{bcrypt}$2a$10$GRLdNijSQMUvl/au9ofL.eDwmoohzzS7.rmNSJZ.0FxO/BTk76klW', '1');");
 			
-			securityJdbcTemplate.execute("INSERT IGNORE INTO authorities (username, authority) VALUES\n"
-					+ "		    ('user', 'user'),\n"
-					+ "		    ('admin', 'user'),\n"
-					+ "		    ('admin', 'admin');");
 			
-			dataJdbcTemplate.execute("DROP table if exists data01;");
-			dataJdbcTemplate.execute("DROP table if exists data02;");
-			dataJdbcTemplate.execute("create table data01(name varchar(50) not null primary key, enabled boolean not null);");
-			dataJdbcTemplate.execute("create table data02(name varchar(50) not null primary key, enabled boolean not null);");
-			dataJdbcTemplate.execute("INSERT IGNORE INTO data01 (name, enabled) VALUES ('user01', 1)");
-			dataJdbcTemplate.execute("INSERT IGNORE INTO data01 (name, enabled) VALUES ('admin01', 1)");
-			dataJdbcTemplate.execute("INSERT IGNORE INTO data01 (name, enabled) VALUES ('developer01', 1)");
-			dataJdbcTemplate.execute("INSERT IGNORE INTO data02 (name, enabled) VALUES ('user02', 1)");
-			dataJdbcTemplate.execute("INSERT IGNORE INTO data02 (name, enabled) VALUES ('admin02', 1)");
-			dataJdbcTemplate.execute("INSERT IGNORE INTO data02 (name, enabled) VALUES ('developer02', 1)");
+			
+			
+			
 		};
 	}
 	

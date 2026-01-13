@@ -13,6 +13,8 @@ services:
       MYSQL_ROOT_PASSWORD: password
     volumes:
       - dbdata:/var/lib/mysql
+      - ./src/main/resources/scripts/db_data/schema.sql:/docker-entrypoint-initdb.d/1.sql
+      - ./src/main/resources/scripts/db_data/data.sql:/docker-entrypoint-initdb.d/2.sql
     networks:
       - database
 
@@ -30,6 +32,8 @@ services:
       MYSQL_ROOT_PASSWORD: password
     volumes:
       - dbsecurity:/var/lib/mysql
+      - ./src/main/resources/scripts/db_security/schema.sql:/docker-entrypoint-initdb.d/1.sql
+      - ./src/main/resources/scripts/db_security/data.sql:/docker-entrypoint-initdb.d/2.sql
     networks:
       - database
 
